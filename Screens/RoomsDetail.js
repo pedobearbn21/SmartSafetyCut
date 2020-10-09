@@ -34,13 +34,13 @@ const RoomsDetail = ({ route, navigation }) => {
                     <ImageBackground style={{ padding:10,height: 120, width: 120, alignItems: 'center' ,justifyContent: 'center'  }} source={ImageBulb()} ><Text>{statusRoom}</Text></ImageBackground>
                 </Block>
             </Block>
-            <Block flex={3}  style={{ marginVertical: 10, paddingVertical: 10 }} >
-                <Text p >ช่วงเวลา</Text>
+            <Block flex={3} align center  style={{ marginVertical: 10, paddingVertical: 10 }} >
+                <Text p>ช่วงเวลา</Text>
                 <Block flex row >
-                    <Input rounded placeholder="Start Time"  color={themes.COLORS.PRIMARY} style={{flex:1,maxHeight: 40,width:width/3, borderColor: themes.COLORS.PRIMARY }} placeholderTextColor={themes.COLORS.PRIMARY} />
-                    <Input rounded placeholder="End Time"  color={themes.COLORS.PRIMARY} style={{flex:1, maxHeight:40,width:width/3, borderColor: themes.COLORS.PRIMARY }} placeholderTextColor={themes.COLORS.PRIMARY} />
+                    <Input rounded placeholder="Start Time"  color={themes.COLORS.PRIMARY} style={{flex:1,margin:15,maxHeight: 40,width:width/3, borderColor: themes.COLORS.PRIMARY }} placeholderTextColor={themes.COLORS.PRIMARY} />
+                    <Input rounded placeholder="End Time"  color={themes.COLORS.PRIMARY} style={{flex:1,margin:15, maxHeight:40,width:width/3, borderColor: themes.COLORS.PRIMARY }} placeholderTextColor={themes.COLORS.PRIMARY} />
                 </Block>
-                <Block flex >
+                <Block style={{flex:1.5}}>
                     <Button size='large' onPress={ onTheRoom }>Submit</Button>
                 </Block>
             </Block>
