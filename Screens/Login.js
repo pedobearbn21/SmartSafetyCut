@@ -16,16 +16,7 @@ export default({navigation}) => {
                         <Button onPress={() => navigation.navigate('Home')} color={themes.COLORS.PRIMARY}>Submit</Button>
                     </Block>
                 </Block>
-                
-                
-                
             </Block>
-            <Block row>
-                
-                
-            </Block>
-
-
         </SafeAreaView>
     )
 }
