@@ -31,7 +31,7 @@ export default ({ route, navigation }) => {
                 )
             .catch((err)=>{console.log(err)})
     }, [])
-
+    var ImageBulb = (status) => (status === 'on')? require('../assets/lightbulbyellow.png'):require('../assets/lightbulb.png')
 
     return (
         <ScrollView>
@@ -44,25 +44,33 @@ export default ({ route, navigation }) => {
                             renderItem={({item})=>{
                                 return (
                                     
+                                    
                                     <Block flex style={styles.backgroundCard}>
-                                        <Block flex style={styles.cards}>
                                             <Pressable 
                                                 onPress={(press)=>{ navigation.navigate('RoomsDetail',{ room:item }) }}
                                                 style={({ pressed }) => [
-                                                    {
-                                                      backgroundColor: pressed
-                                                        ? 'lightgreen': 'pink'
-                                                    },
+                                                    pressed? {
+                                                        shadowColor: "#000",
+                                                        shadowOffset: {
+                                                            width: 0,
+                                                            height: 10,
+                                                        },
+                                                        shadowOpacity: 0.53,
+                                                        shadowRadius: 13.97,
+                                                        
+                                                        elevation: 1,  
+                                                    }:{},
                                                     styles.wrapperCustom
                                                   ]}
                                                 >
-                                                <Block row style={{ alignItems:'center' }}>
-                                                    <Image style={{ height: 40, width: 40 }} source={require('../assets/light-bulb.png')} />
-                                                    <Text >{item.id}</Text>
-                                                    <Text style={{alignItems: 'flex-end'}}>{item.status}</Text>
-                                                </Block>
+                                                        <Block flex style={styles.cards}>
+                                                            <Block row style={{ alignItems:'center' }}>
+                                                                <Image style={{ height: 40, width: 40 }} source={ImageBulb(item.status)} />
+                                                                <Text >{item.id}</Text>
+                                                                <Text style={{alignItems: 'flex-end'}}>{item.status}</Text>
+                                                            </Block>
+                                                        </Block>
                                             </Pressable>
-                                        </Block>
                                     </Block>
                                 )
                             }}
@@ -84,7 +92,7 @@ const styles = StyleSheet.create({
         marginHorizontal: 15
     },
     backgroundCard: {
-        backgroundColor: 'white',
+        
     },
     onBulb: {
         backgroundColor: 'yellow'

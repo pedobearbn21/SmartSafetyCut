@@ -22,7 +22,7 @@ const RoomsDetail = ({ route, navigation }) => {
 
     const { id, status } = route.params.room
     const [ statusRoom , setStatusRoom] = useState(status)
-    var ImageBulb = () => (statusRoom === 'on')? require('../assets/lightbulb.png'):require('../assets/lightbulbyellow.png')
+    var ImageBulb = () => (statusRoom == 'on')? require('../assets/lightbulbyellow.png'):require('../assets/lightbulb.png')
     return (
         <Block flex={6} middle style={styles.container}>
             <Block flex={3}  center>
