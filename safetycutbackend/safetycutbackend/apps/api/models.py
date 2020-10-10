@@ -20,3 +20,9 @@ class Room(models.Model):
     floor = models.ForeignKey(Floor, on_delete=models.CASCADE)
     def __str__(self):
         return f' Building : {self.floor.building.building_name}, Floor : {self.floor.floor_name}, Room: {self.room_name}'
+
+class Booking_Room(models.Model):
+    start_time = models.DateTimeField()
+    end_time = models.DateTimeField()
+    room = models.ForeignKey(Room, on_delete=models.CASCADE)
+    # class_room = models.ManyToManyField()
