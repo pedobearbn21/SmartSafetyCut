@@ -1,5 +1,7 @@
 from django.db import models
 from datetime import datetime 
+from django.utils import timezone
+
 
 # Create your models here.
 class Building(models.Model):
@@ -15,10 +17,13 @@ class Floor(models.Model):
     
     class Meta:
         ordering = ['floor_name']
+
+status_choices = [("0","off"),("1","on")]
 class Room(models.Model):
     room_name = models.CharField(max_length=10)
     hardware_id = models.CharField(max_length=255)
     floor = models.ForeignKey(Floor, on_delete=models.CASCADE)
+    status = models.CharField(max_length=255,choices=status_choices,default="0")
     def __str__(self):
         return f' Building : {self.floor.building.building_name}, Floor : {self.floor.floor_name}, Room: {self.room_name}'
 
@@ -32,7 +37,18 @@ class Room(models.Model):
     #     return super(BookingRoom, self).save(*args, **kwargs)
     # class_room = models.ManyToManyField()
 
+class ClassRoom(models.Model):
+    class_name = models.CharField(max_length=255)
+    start_time = models.DateTimeField()
+    end_time = models.DateTimeField()
+    room = models.ForeignKey(Room, on_delete=models.CASCADE)
+    timestamp = models.DateTimeField(default=None)
+    def save(self, *args, **kwargs):
+        self.timestamp = timezone.now()
+        return super(ClassRoom, self).save(*args, **kwargs)
+
 class BookingClass(models.Model):
+    class_name = models.CharField(max_length=255, default='')
     start_time = models.DateTimeField()
     end_time = models.DateTimeField()
     count = models.IntegerField(default=0)
@@ -41,7 +57,6 @@ class BookingClass(models.Model):
     def __str__(self):
         return f' Time Duration {self.start_time} ---->  {self.end_time}, Room  {self.room.room_name}'
     def save(self, *args, **kwargs):
-        if not self.id:
-            self.count = self.count+1
-            self.timestamp = datetime.now()
+        self.count = self.count+1
+        self.timestamp = timezone.now()
         return super(BookingClass, self).save(*args, **kwargs)
