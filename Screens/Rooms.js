@@ -4,7 +4,6 @@ import {StyleSheet, Dimensions, ScrollView, FlatList, Image, Pressable, Alert } 
 import axios from 'axios';
 import themes from './themes';
 
-
 const { width, height } = Dimensions.get('screen');
 
 // const a =   <Block flex style={{ padding:10 }}>
@@ -38,14 +37,16 @@ export default ({ route, navigation }) => {
             <Block style={ styles.col }>
                 <Block style={ styles.row }>
                     <Block flex>
+                        <Text h3 center style={{margin:10}}>เลือกห้อง</Text>
                         <FlatList
                             data={rooms}
-                            numColumns={1}
+                            numColumns={2}
                             renderItem={({item})=>{
                                 return (
                                     
                                     
                                     <Block flex style={styles.backgroundCard}>
+                                        
                                             <Pressable 
                                                 onPress={(press)=>{ navigation.navigate('RoomsDetail',{ room:item }) }}
                                                 style={({ pressed }) => [
@@ -57,7 +58,6 @@ export default ({ route, navigation }) => {
                                                         },
                                                         shadowOpacity: 0.53,
                                                         shadowRadius: 13.97,
-                                                        
                                                         elevation: 1,  
                                                     }:{},
                                                     styles.wrapperCustom
@@ -66,7 +66,7 @@ export default ({ route, navigation }) => {
                                                         <Block flex style={styles.cards}>
                                                             <Block row style={{ alignItems:'center' }}>
                                                                 <Image style={{ height: 40, width: 40 }} source={ImageBulb(item.status)} />
-                                                                <Text >{item.id}</Text>
+                                                                <Text style={{margin:15}} >{item.id}</Text>
                                                                 <Text style={{alignItems: 'flex-end'}}>{item.status}</Text>
                                                             </Block>
                                                         </Block>
