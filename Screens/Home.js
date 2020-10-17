@@ -13,12 +13,13 @@ export default({ navigation }) => {
         <SafeAreaView style={styles.container}>
             <Block middle style={styles.cols}>
                 <Block  style={{ width:"80%" }}>
-                    <Text h6 style={{ flexDirection:'column', justifyContent:'center', alignItems:'center' }}>เลือกห้องที่ต้องการจะเลือกใช้</Text>
-                        <Text p style={{ flexDirection:'column', justifyContent:'center', alignItems:'center' }}>เลือกอาคาร</Text>
+                    <Text h6 align center>เลือกห้องที่ต้องการจะเลือกใช้</Text>
+                    <Block style={{margin:10}}/>
+                        <Text p>เลือกอาคาร</Text>
                         <DropDownPicker
                             items={[
-                                {label: '1', value: 1, icon: () => <Icon name="flag" size={18} color="#900" />},
-                                {label: '2', value: 2, icon: () => <Icon name="flag" size={18} color="#900" />},
+                                {label: 'ICT', value: 1, icon: () => <Icon name="flag" size={18} color="#900" />},
+                                {label: 'CE', value: 2, icon: () => <Icon name="flag" size={18} color="#900" />},
                             ]}
                             defaultValue={selectedBuilding}
                             containerStyle={{height: 40}}
@@ -30,12 +31,14 @@ export default({ navigation }) => {
                             dropDownStyle={{backgroundColor: '#fafafa', zIndex:3}}
                             onChangeItem={item => setSelectedBuilding(item.value)}
                         />
-
-                        <Text p style={{ flexDirection:'column', justifyContent:'center', alignItems:'center' }}>เลือกชั้น</Text>
+                        <Block style={{margin:10}}/>
+                        <Text p >เลือกชั้น</Text>
                         <DropDownPicker
                             items={[
                                 {label: '1', value: 1, icon: () => <Icon name="flag" size={18} color="#900" />},
                                 {label: '2', value: 2, icon: () => <Icon name="flag" size={18} color="#900" />},
+                                {label: '3', value: 2, icon: () => <Icon name="flag" size={18} color="#900" />},
+                                {label: '4', value: 2, icon: () => <Icon name="flag" size={18} color="#900" />}
                             ]}
                             defaultValue={selectedFloor}
                             containerStyle={{height: 40}}
@@ -51,6 +54,7 @@ export default({ navigation }) => {
                         
 
                 </Block>
+                <Block style={{margin:10}}/>
                 <Button color={themes.COLORS.PRIMARY} onPress={()=>{
                             navigation.navigate('Rooms',{ building: selectedBuilding, floor: selectedFloor })
                         }}>Submit</Button>
@@ -64,7 +68,7 @@ export default({ navigation }) => {
 
 const styles = StyleSheet.create({
     container: {
-        flex:1,
+        flex:1
     },
     cols: {
         flexDirection: 'column',
