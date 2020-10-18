@@ -41,8 +41,10 @@ class ClassRoom(models.Model):
     class_name = models.CharField(max_length=255)
     start_time = models.DateTimeField()
     end_time = models.DateTimeField()
-    room = models.ForeignKey(Room, on_delete=models.CASCADE)
+    room = models.ForeignKey(Room, on_delete=models.CASCADE, related_name='rooms_class')
     timestamp = models.DateTimeField(default=None)
+    def __str__(self):
+        return f' Time Duration {self.start_time} ---->  {self.end_time}, Room  {self.room.room_name} Status {self.room.status}'
     def save(self, *args, **kwargs):
         self.timestamp = timezone.now()
         return super(ClassRoom, self).save(*args, **kwargs)
@@ -52,10 +54,10 @@ class BookingClass(models.Model):
     start_time = models.DateTimeField()
     end_time = models.DateTimeField()
     count = models.IntegerField(default=0)
-    room = models.ForeignKey(Room, on_delete=models.CASCADE)
+    room = models.ForeignKey(Room, on_delete=models.CASCADE, related_name='rooms_booking')
     timestamp = models.DateTimeField(default=None)
     def __str__(self):
-        return f' Time Duration {self.start_time} ---->  {self.end_time}, Room  {self.room.room_name}'
+        return f' Time Duration {self.start_time} ---->  {self.end_time}, Room  {self.room.room_name}  Status {self.room.status}'
     def save(self, *args, **kwargs):
         self.count = self.count+1
         self.timestamp = timezone.now()
