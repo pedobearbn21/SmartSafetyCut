@@ -20,15 +20,18 @@ export default({ navigation }) => {
                             items={[
                                 {label: 'ICT', value: 1, icon: () => <Icon name="flag" size={18} color="#900" />},
                                 {label: 'CE', value: 2, icon: () => <Icon name="flag" size={18} color="#900" />},
+                                {label: 'Engineer', value: 2, icon: () => <Icon name="flag" size={18} color="#900" />},
+                                {label: 'PKY', value: 2, icon: () => <Icon name="flag" size={18} color="#900" />},
+                                {label: 'ตึกหมออะ', value: 2, icon: () => <Icon name="flag" size={18} color="#900" />}
                             ]}
                             defaultValue={selectedBuilding}
                             containerStyle={{height: 40}}
-                            style={{backgroundColor: '#fafafa', zIndex:3}}
+                            style={{backgroundColor: '#fafafa', zIndex:1}}
                             itemStyle={{
                                 justifyContent: 'flex-start',
-                                zIndex:3
+                                zIndex:1
                             }}
-                            dropDownStyle={{backgroundColor: '#fafafa', zIndex:3}}
+                            dropDownStyle={{backgroundColor: '#fafafa'}}
                             onChangeItem={item => setSelectedBuilding(item.value)}
                         />
                         <Block style={{margin:10}}/>
@@ -51,13 +54,13 @@ export default({ navigation }) => {
                             onChangeItem={item => setselectedFloor(item.value)}
                         />
 
-                        
-
                 </Block>
                 <Block style={{margin:10}}/>
+                <Block style={{zIndex:-1}}>
                 <Button color={themes.COLORS.PRIMARY} onPress={()=>{
                             navigation.navigate('Rooms',{ building: selectedBuilding, floor: selectedFloor })
-                        }}>Submit</Button>
+                        }} >Submit</Button>
+                </Block>
 
             </Block>
 
@@ -79,5 +82,5 @@ const styles = StyleSheet.create({
         shadowOpacity: 1,
         shadowColor: 'black',
         borderColor: 'black'
-    }
+    },
 })
