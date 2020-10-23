@@ -3,6 +3,8 @@ import { StyleSheet, Image, ImageBackground, Dimensions } from 'react-native'
 import { Block, Text, Input, Button } from 'galio-framework'
 import themes from './themes'
 import axios from 'axios'
+import DatetimePickerComponent from '../components/DatetimePickerComponent'
+// <DatetimePickerComponent  dataDate={(res)=>setDataDate(res)} />
 
 const { width } = Dimensions.get('screen');
 
@@ -38,6 +40,7 @@ const RoomsDetail = ({ route, navigation }) => {
                 <Text h5>ช่วงเวลา</Text>
                 <Block flex row middle >
                     <Input rounded placeholder="Start Time"  color={themes.COLORS.PRIMARY} style={{flex:1,margin:15,maxHeight: 40,width:width/3, borderColor: themes.COLORS.PRIMARY }} placeholderTextColor={themes.COLORS.PRIMARY} />
+                    <DatetimePickerComponent dataDate={"asd"} />
                     <Text>:</Text>
                     <Input rounded placeholder="End Time"  color={themes.COLORS.PRIMARY} style={{flex:1,margin:15, maxHeight:40,width:width/3, borderColor: themes.COLORS.PRIMARY }} placeholderTextColor={themes.COLORS.PRIMARY} />
                 </Block>
