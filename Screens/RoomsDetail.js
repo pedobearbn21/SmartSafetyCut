@@ -28,7 +28,7 @@ const RoomsDetail = ({ route, navigation }) => {
         {
             setRoom(res.data)
             eventRoom(res.data.id,res.data.status)
-            if (room.rooms_booking) endClassRoom(room.rooms_booking)
+            // if (room.bookingclassroom) endClassRoom(room.bookingclassroom)
             setLoading(false)
 
 
@@ -39,7 +39,7 @@ const RoomsDetail = ({ route, navigation }) => {
     
     useEffect(() => {
         getRoom();
-        // room.rooms_booking.map((item)=> { deleteOutofRoom(item.id) })
+        // room.bookingclassroom.map((item)=> { deleteOutofRoom(item.id) })
         // var now = new Date(); // Fri Feb 20 2015 19:29:31 GMT+0530 (India Standard Time) 
         // var isoDate = new Date(now.getTime() - now.getTimezoneOffset() * 60000).toISOString();
         // console.log(isoDate)
@@ -51,6 +51,7 @@ const RoomsDetail = ({ route, navigation }) => {
             .then((res)=>{
                 getRoom()
                 eventRoom(res.data.id,"0")
+                
 
             })
             .catch((err)=>{})
@@ -67,17 +68,18 @@ const RoomsDetail = ({ route, navigation }) => {
 
     const endClassRoom=(arr)=>{
         const data = arr.filter((item)=> (new Date(item.end_time) < new Date()) )
-        console.log(data)
         data.map((item)=> deleteOutofRoom(item.id))
     }
     
     const onTheRoom = () => {
         let clonedData = {...room}
         clonedData.status === '1'? clonedData.status='0':clonedData.status='1';
+        deleteOutofRoom(room.bookingclassroom[0].id)
+        endClassRoom(room.bookingclassroom)
         axios.put(`https://infinite-taiga-47087.herokuapp.com/api/room/${id}`,clonedData)
             .then((res)=>{ 
                 setRoom(res.data);
-                endClassRoom(res.data.rooms_booking);
+                // endClassRoom(res.data.bookingclassroom);
             })
             .catch((err)=>{console.log(err)})
     }
@@ -101,9 +103,8 @@ const RoomsDetail = ({ route, navigation }) => {
             setBtnLoading(false)
             return Alert.alert('ไม่สามารถจองห้องในเวลาดังกล่าวได้')
         }
-        // BetweenDate(room.rooms_booking,startTime,endTime);
-        await BetweenDate(room.rooms_booking,startTime,endTime)
-        console.log(canAdded)
+        // BetweenDate(room.bookingclassroom,startTime,endTime);
+        await BetweenDate(room.bookingclassroom,startTime,endTime)
         if(canAdded ){
             const dataBooking = {
                 "class_name": classname,
@@ -137,7 +138,7 @@ const RoomsDetail = ({ route, navigation }) => {
                 <Block flex={3}  center>
                     <Block row center flex={1}>
                         <Text h3>ห้อง</Text>
-                        <Text h3 styles={{ color:'white' }}>{id}</Text>
+                        <Text h3 styles={{ color:'white' }}>{room.room_name}</Text>
                     </Block>
                     <Block row flex={2} style={{paddingVertical: 15}}>
                         <ImageBackground style={{ height: 180, width: 180, alignItems: 'center' ,justifyContent: 'center'  }} source={ImageBulb()} ><Text>{room.status}</Text></ImageBackground>
@@ -164,7 +165,7 @@ const RoomsDetail = ({ route, navigation }) => {
                         <Button size='large'  loading={btnloading} disabled={btnloading} onPress={ bookTheRoom }>จอง</Button>
                     </Block>
                         <Block>
-                            { room.rooms_booking.map((value)=>{
+                            { room.bookingclassroom.map((value)=>{
                                 
 
                                     {  if(!( new Date(value.end_time) < new Date())){

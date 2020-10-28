@@ -53,7 +53,7 @@ export default ({ route, navigation }) => {
                                     <Block flex style={styles.backgroundCard}>
                                         
                                             <Pressable 
-                                                onPress={(press)=>{ navigation.navigate('RoomsDetail',{ room:item, eventRoom: (idroom,valStatus)=> { item.status=valStatus;console.log(item) } }) }}
+                                                onPress={(press)=>{ navigation.navigate('RoomsDetail',{ room:item, eventRoom: (idroom,valStatus)=> { item.status=valStatus; } }) }}
                                                 style={({ pressed }) => [
                                                     pressed? {
                                                         shadowColor: "#000",
