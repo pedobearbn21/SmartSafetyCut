@@ -17,6 +17,7 @@ const RoomsDetail = ({ route, navigation }) => {
     const [ endTime, setendTime ] = useState()
     const [ loading, setLoading ] = useState(true)
     const [ classname, setClassName ] = useState() 
+    const [ btnloading, setBtnLoading ] = useState(false)
     const now = new Date()
     
     
@@ -26,8 +27,10 @@ const RoomsDetail = ({ route, navigation }) => {
         {
             setRoom(res.data)
             eventRoom(res.data.id,res.data.status)
+            if (room.rooms_booking) endClassRoom(room.rooms_booking)
             setLoading(false)
-            // console.log(new Date(now.getTime() - now.getTimezoneOffset() * 60000).toISOString())
+
+
         }
         )
         .catch((err)=>{console.log(err)})
@@ -80,6 +83,7 @@ const RoomsDetail = ({ route, navigation }) => {
             .catch((err)=>{console.log(err)})
     }
     const bookTheRoom = () => {
+        setBtnLoading(true)
         if (startTime > endTime) {
             return Alert.alert('เลือกวันเวลาผิด กรุณาเลือกใหม่')
         }
@@ -95,6 +99,7 @@ const RoomsDetail = ({ route, navigation }) => {
             .then((res)=>{ 
                 Alert.alert('จองสำเร็จ  โปรดรอ1นาทีเพื่อทำการเปิดไฟ')
                 getRoom();
+                setBtnLoading(false)
             })
             .catch((err)=>{
                 console.log(err);
@@ -134,9 +139,9 @@ const RoomsDetail = ({ route, navigation }) => {
                     </Block>
                     <Block  style={{flex:0.5, marginVertical:10 }}>
                         { room.status ==='1' &&
-                            <Button size='large' onPress={ onTheRoom }> ปิดใช้งาน </Button>
+                            <Button  loadingSize={'small'} size='large' onPress={ onTheRoom }> ปิดใช้งาน </Button>
                         }
-                        <Button size='large' onPress={ bookTheRoom }>จอง</Button>
+                        <Button size='large'  loading={btnloading} disabled={btnloading} onPress={ bookTheRoom }>จอง</Button>
                     </Block>
                         <Block>
                             { room.rooms_booking.map((value)=>{
