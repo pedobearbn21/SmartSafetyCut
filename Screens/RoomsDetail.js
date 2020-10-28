@@ -18,6 +18,7 @@ const RoomsDetail = ({ route, navigation }) => {
     const [ loading, setLoading ] = useState(true)
     const [ classname, setClassName ] = useState() 
     const [ btnloading, setBtnLoading ] = useState(false)
+    const [ canAdded, setCanAdded ] = useState(true)
     const now = new Date()
     
     
@@ -65,10 +66,8 @@ const RoomsDetail = ({ route, navigation }) => {
     }
 
     const endClassRoom=(arr)=>{
-        // arr.forEach(element => {
-        //     console.log( new Date(element.end_time),new Date(), new Date(element.end_time) < new Date())
-        // });
-        const data = arr.filter((item)=> (new Date(item.end_time) < new Date())  ||  (new Date(item.end_time < new Date()))  )
+        const data = arr.filter((item)=> (new Date(item.end_time) < new Date()) )
+        console.log(data)
         data.map((item)=> deleteOutofRoom(item.id))
     }
     
@@ -82,34 +81,52 @@ const RoomsDetail = ({ route, navigation }) => {
             })
             .catch((err)=>{console.log(err)})
     }
-    const bookTheRoom = () => {
+
+    const BetweenDate = (arr,start,end) => {
+        arr.forEach(element => {
+            if ( ((new Date(start) > new Date(element.start_time)) || (new Date(start) < new Date(element.end_time))) ||  ((new Date(end) > new Date(element.start_time)) || (new Date(end) < new Date(element.end_time)))   ){
+                setCanAdded(false)
+                return Alert.alert('ไม่สามารถจองห้องในเวลานี้ได้  เนื่องจากมีคนใช้แล้ว')
+            }
+        });
+        
+    }
+    const bookTheRoom = async() => {
         setBtnLoading(true)
         if (startTime > endTime) {
+            setBtnLoading(false)
             return Alert.alert('เลือกวันเวลาผิด กรุณาเลือกใหม่')
         }
         if ( startTime < new Date() ||  endTime < new Date() ) {
+            setBtnLoading(false)
             return Alert.alert('ไม่สามารถจองห้องในเวลาดังกล่าวได้')
         }
-        const dataBooking = {
-            "class_name": classname,
-            "start_time": startTime,
-            "end_time": endTime,
-            "count": 1,
-            "timestamp": convertTime(new Date()),
-            "room": room.id
+        // BetweenDate(room.rooms_booking,startTime,endTime);
+        await BetweenDate(room.rooms_booking,startTime,endTime)
+        console.log(canAdded)
+        if(canAdded ){
+            const dataBooking = {
+                "class_name": classname,
+                "start_time": startTime,
+                "end_time": endTime,
+                "count": 1,
+                "timestamp": convertTime(new Date()),
+                "room": room.id
+            }
+            axios.post(`https://infinite-taiga-47087.herokuapp.com/api/bookingroom`,dataBooking)
+                .then((res)=>{ 
+                    Alert.alert('จองสำเร็จ  โปรดรอ1นาทีเพื่อทำการเปิดไฟ')
+                    getRoom();
+                    setBtnLoading(false)
+                })
+                .catch((err)=>{
+                    console.log(err);
+                    Alert.alert('ไม่สามารถจองได้ กรุณาลองใหม่อีกครั้ง')
+                })
         }
-        axios.post(`https://infinite-taiga-47087.herokuapp.com/api/bookingroom`,dataBooking)
-            .then((res)=>{ 
-                Alert.alert('จองสำเร็จ  โปรดรอ1นาทีเพื่อทำการเปิดไฟ')
-                getRoom();
-                setBtnLoading(false)
-            })
-            .catch((err)=>{
-                console.log(err);
-                Alert.alert('ไม่สามารถจองได้ กรุณาลองใหม่อีกครั้ง')
-            })
+        setBtnLoading(false)
     }
-
+    
     var ImageBulb = () => (room.status == '1')? require('../assets/lightbulbyellow.png'):require('../assets/lightbulb.png')
     if( loading === true  ){
         return (<ActivityIndicator size="large" color='#ff99a3' style={ {justifyContent: 'center', flex:1, }}></ActivityIndicator>)
