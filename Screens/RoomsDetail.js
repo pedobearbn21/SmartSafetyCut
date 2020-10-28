@@ -84,15 +84,16 @@ const RoomsDetail = ({ route, navigation }) => {
             .catch((err)=>{console.log(err)})
     }
 
-    const BetweenDate = (arr,start,end) => {
-        arr.forEach(element => {
-            if ( ((new Date(start) > new Date(element.start_time)) || (new Date(start) < new Date(element.end_time))) ||  ((new Date(end) > new Date(element.start_time)) || (new Date(end) < new Date(element.end_time)))   ){
-                setCanAdded(false)
-                return Alert.alert('ไม่สามารถจองห้องในเวลานี้ได้  เนื่องจากมีคนใช้แล้ว')
-            }
-        });
-        
-    }
+    // const BetweenDate = (arr,start,end) => {
+    //     for (const element in arr) {
+    //         console.log( new Date(start), new Date(end), new Date(element.start_time), new Date(element.end_time) )
+    //         if ( ((new Date(start) > new Date(element.start_time)) || (new Date(start) < new Date(element.end_time))) ||  ((new Date(end) > new Date(element.start_time)) || (new Date(end) < new Date(element.end_time)))   ){
+    //             setCanAdded(false)
+    //             console.log(canAdded)
+    //             return Alert.alert('ไม่สามารถจองห้องในเวลานี้ได้  เนื่องจากมีคนใช้แล้ว');
+    //         }
+    //     }
+    // }
     const bookTheRoom = async() => {
         setBtnLoading(true)
         if (startTime > endTime) {
@@ -104,7 +105,8 @@ const RoomsDetail = ({ route, navigation }) => {
             return Alert.alert('ไม่สามารถจองห้องในเวลาดังกล่าวได้')
         }
         // BetweenDate(room.bookingclassroom,startTime,endTime);
-        await BetweenDate(room.bookingclassroom,startTime,endTime)
+        // const p = await BetweenDate(room.bookingclassroom,startTime,endTime)
+        // console.log(p)
         if(canAdded ){
             const dataBooking = {
                 "class_name": classname,
