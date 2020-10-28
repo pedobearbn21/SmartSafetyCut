@@ -87,6 +87,9 @@ const RoomsDetail = ({ route, navigation }) => {
         if (startTime > endTime) {
             return Alert.alert('เลือกวันเวลาผิด กรุณาเลือกใหม่')
         }
+        if ( startTime < new Date() ||  endTime < new Date() ) {
+            return Alert.alert('ไม่สามารถจองห้องในเวลาดังกล่าวได้')
+        }
         const dataBooking = {
             "class_name": classname,
             "start_time": startTime,
