@@ -147,7 +147,7 @@ const RoomsDetail = ({ route, navigation }) => {
                             { room.rooms_booking.map((value)=>{
                                 
 
-                                    {  if(!( formatDate(value.end_time) < now)){
+                                    {  if(!( new Date(value.end_time) < new Date())){
                                         return (
                                         <Text>{ value.class_name } {formatDate(value.start_time)} --- {formatDate(value.end_time)}</Text>
                                         )
