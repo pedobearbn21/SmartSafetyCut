@@ -80,6 +80,9 @@ const RoomsDetail = ({ route, navigation }) => {
             .catch((err)=>{console.log(err)})
     }
     const bookTheRoom = () => {
+        if (startTime > endTime) {
+            return Alert.alert('เลือกวันเวลาผิด กรุณาเลือกใหม่')
+        }
         const dataBooking = {
             "class_name": classname,
             "start_time": startTime,
