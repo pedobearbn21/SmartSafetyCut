@@ -46,14 +46,14 @@ export default ({ route, navigation }) => {
                         <FlatList
                             data={rooms}
                             numColumns={2}
-                            renderItem={({item})=>{
+                            renderItem={({item,index})=>{
                                 return (
                                     
                                     
                                     <Block flex style={styles.backgroundCard}>
                                         
                                             <Pressable 
-                                                onPress={(press)=>{ navigation.navigate('RoomsDetail',{ room:item, eventRoom: (valStatus)=> {item.status = valStatus} }) }}
+                                                onPress={(press)=>{ navigation.navigate('RoomsDetail',{ room:item, eventRoom: (idroom,valStatus)=> { item.status=valStatus;console.log(item) } }) }}
                                                 style={({ pressed }) => [
                                                     pressed? {
                                                         shadowColor: "#000",
@@ -71,8 +71,8 @@ export default ({ route, navigation }) => {
                                                         <Block flex style={styles.cards}>
                                                             <Block row style={{ alignItems:'center' }}>
                                                                 <Image style={{ height: 40, width: 40 }} source={ImageBulb(item.status)} />
-                                                                <Text style={{margin:15}} >{item.room_name}</Text>
-                                                                <Text style={{alignItems: 'flex-end'}}>{item.status}</Text>
+                                                                <Text style={{margin:10}} >{item.room_name}</Text>
+                                                                <Text style={{alignItems: 'flex-end'}}>{item.status=="0" ?  "ว่าง":"ไม่ว่าง"}</Text>
                                                             </Block>
                                                         </Block>
                                             </Pressable>

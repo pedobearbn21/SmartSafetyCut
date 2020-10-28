@@ -10,7 +10,7 @@ const { width } = Dimensions.get('screen');
 
 const RoomsDetail = ({ route, navigation }) => {
 
-    
+    const { eventRoom } = route.params
     const { id, status } = route.params.room
     const [ room , setRoom] = useState(status)
     const [ startTime, setstartTime ] = useState()
@@ -25,7 +25,7 @@ const RoomsDetail = ({ route, navigation }) => {
         .then( (res)=>
         {
             setRoom(res.data)
-            route.params.eventRoom(res.data.status)
+            eventRoom(res.data.id,res.data.status)
             setLoading(false)
             // console.log(new Date(now.getTime() - now.getTimezoneOffset() * 60000).toISOString())
         }
@@ -44,7 +44,11 @@ const RoomsDetail = ({ route, navigation }) => {
 
     const deleteOutofRoom = (bookingId) => {
         axios.delete(`https://infinite-taiga-47087.herokuapp.com/api/bookingroom/${bookingId}`)
-            .then((res)=>{})
+            .then((res)=>{
+                getRoom()
+                eventRoom(res.data.id,"0")
+
+            })
             .catch((err)=>{})
     }
     const convertTime = (date) => {
@@ -58,18 +62,21 @@ const RoomsDetail = ({ route, navigation }) => {
     }
 
     const endClassRoom=(arr)=>{
-        arr.forEach(element => {
-            console.log( new Date(element.start_time), now, new Date())
-        });
-        // const data = arr.filter((item)=> (formatDate(item.start_time) < now && formatDate(item.end_time) > now ))
-        // console.log(data)
+        // arr.forEach(element => {
+        //     console.log( new Date(element.end_time),new Date(), new Date(element.end_time) < new Date())
+        // });
+        const data = arr.filter((item)=> (new Date(item.end_time) < new Date())  ||  (new Date(item.end_time < new Date()))  )
+        data.map((item)=> deleteOutofRoom(item.id))
     }
     
     const onTheRoom = () => {
         let clonedData = {...room}
         clonedData.status === '1'? clonedData.status='0':clonedData.status='1';
         axios.put(`https://infinite-taiga-47087.herokuapp.com/api/room/${id}`,clonedData)
-            .then((res)=>{ setRoom(res.data);endClassRoom(res.data.rooms_booking);})
+            .then((res)=>{ 
+                setRoom(res.data);
+                endClassRoom(res.data.rooms_booking);
+            })
             .catch((err)=>{console.log(err)})
     }
     const bookTheRoom = () => {
